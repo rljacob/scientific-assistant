@@ -1,7 +1,9 @@
 #!/bin/bash
-# Sync scientific assistant knowledge base
+# Sync scientific assistant knowledge base and recipe
 
 KB_DIR="$HOME/.config/goose/recipes/scientific-assistant"
+RECIPE_DIR="$HOME/.config/goose/recipes"
+
 cd "$KB_DIR"
 
 echo "Scientific Assistant Knowledge Sync"
@@ -36,6 +38,11 @@ git pull --rebase
 echo "Pushing local changes..."
 git push
 
+# Copy recipe.yaml to parent directory for older Goose compatibility
+echo "Updating recipe.yaml for older Goose versions..."
+cp "$KB_DIR/recipe.yaml" "$RECIPE_DIR/scientific-assistant.yaml"
+
 echo ""
 echo "✓ Sync complete!"
 echo "Knowledge base is up to date on: $(git remote get-url origin 2>/dev/null || echo 'no remote configured')"
+echo "Recipe available at: $RECIPE_DIR/scientific-assistant.yaml"

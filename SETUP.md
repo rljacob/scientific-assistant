@@ -389,3 +389,63 @@ goose session --recipe scientific-assistant
 ```
 
 The recipe works identically with both commands!
+
+---
+
+## IMPORTANT: Recipe File Location for Older Goose
+
+### The Problem
+
+Older Goose versions look for `scientific-assistant.yaml` directly in the recipes directory:
+```
+~/.config/goose/recipes/scientific-assistant.yaml
+```
+
+NOT in a subdirectory:
+```
+~/.config/goose/recipes/scientific-assistant/recipe.yaml  ❌ Older Goose can't find this
+```
+
+### The Solution
+
+**On HPC (one-time setup after cloning):**
+
+```bash
+cd ~/.config/goose/recipes
+cp scientific-assistant/recipe.yaml scientific-assistant.yaml
+
+# Verify it was created
+ls -la scientific-assistant.yaml
+
+# Now test - should work!
+goose run --recipe scientific-assistant
+```
+
+### Final Directory Structure
+
+```
+~/.config/goose/recipes/
+├── scientific-assistant.yaml           ← For older Goose (HPC) ✅
+└── scientific-assistant/               ← Knowledge base directory
+    ├── recipe.yaml                     ← Same content as above
+    ├── recipe.md                       ← For newer Goose
+    ├── knowledge/                      ← All knowledge files
+    │   ├── e3sm_experiments.md
+    │   ├── compset_usage.md
+    │   └── ...
+    ├── sync-knowledge.sh
+    └── README.md
+```
+
+### Why This Structure?
+
+- **Knowledge base**: Organized in subdirectory with git
+- **Recipe file**: Copied to parent directory for older Goose to find
+- **Sync script**: Automatically maintains both copies (local only)
+- **HPC**: Needs manual copy once after initial clone
+
+### After Initial Setup
+
+On local machine, the `sync-knowledge.sh` script automatically maintains both locations.
+
+On HPC, you only need to copy the recipe file ONCE during initial setup. After that, just use `git pull` to update the knowledge base.
