@@ -36,7 +36,7 @@ git pull --rebase
 
 # Push local changes
 echo "Pushing local changes..."
-git push
+git push origin main
 
 # Copy recipe.yaml to parent directory for older Goose compatibility
 echo "Updating recipe.yaml for older Goose versions..."
