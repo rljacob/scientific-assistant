@@ -44,11 +44,28 @@ git clone git@github.com:YOUR_USERNAME/scientific-assistant.git
 
 ## Usage
 
+## Recipe File Format
+
+Goose supports two recipe formats:
+
+1. **recipe.yaml** (YAML format - required for `goose run`)
+2. **recipe.md** (Markdown format - for newer Goose versions)
+
+This recipe includes both formats with identical content. Use whichever your Goose version requires.
+
 ### Start the Assistant
 
+**Current Goose version (local):**
 ```bash
 goose session --recipe scientific-assistant
 ```
+
+**Older Goose version (if on HPC):**
+```bash
+goose run --recipe scientific-assistant
+```
+
+> **Note:** Older Goose versions use `goose run --recipe` while newer versions support `goose session --recipe`. Use whichever works on your machine.
 
 ### Sync Across Machines
 

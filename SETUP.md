@@ -120,8 +120,9 @@ cat ~/.ssh/id_ed25519.pub
 cd ~/.config/goose/recipes/scientific-assistant
 ./sync-knowledge.sh
 
-# Work with the assistant
+# Work with the assistant (use appropriate command for your Goose version)
 goose session --recipe scientific-assistant
+# OR for older Goose: goose run --recipe scientific-assistant
 
 # After planning experiments - sync to GitHub
 ./sync-knowledge.sh
@@ -134,15 +135,17 @@ goose session --recipe scientific-assistant
 cd ~/.config/goose/recipes/scientific-assistant
 ./sync-knowledge.sh
 
-# Use the assistant for experiment planning
-goose session --recipe scientific-assistant
+# Use the assistant (check your Goose version)
+goose run --recipe scientific-assistant
+# OR for newer Goose: goose session --recipe scientific-assistant
+
 # Or just run your E3SM cases
 
 # After experiments - update knowledge and sync
-# (The assistant will update files automatically if you use it)
-# Or edit manually: vim knowledge/e3sm_experiments.md
 ./sync-knowledge.sh
 ```
+
+> **Note:** Goose command syntax changed between versions. Older versions use `goose run --recipe` while newer versions support `goose session --recipe`. Both work with the same recipe files.
 
 ## Sync Script Usage
 
@@ -315,3 +318,74 @@ If you encounter issues:
 3. Test git operations manually before using script
 4. Review HPC documentation for module loading
 5. Check Goose installation: `goose --version`
+
+## Goose Version Compatibility
+
+### Recipe Command Differences
+
+The command to use a recipe changed between Goose versions:
+
+**Older Goose (likely on HPC):**
+```bash
+goose run --recipe scientific-assistant
+```
+
+**Newer Goose (likely on local machine):**
+```bash
+goose session --recipe scientific-assistant
+```
+
+Both commands work with the same recipe files - just the CLI syntax changed.
+
+## Goose Version Compatibility
+
+### Recipe Command Differences
+
+The command to use a recipe changed between Goose versions:
+
+**Older Goose (likely on HPC):**
+```bash
+goose run --recipe scientific-assistant
+```
+Uses `recipe.yaml` file (YAML format)
+
+**Newer Goose (likely on local machine):**
+```bash
+goose session --recipe scientific-assistant
+```
+Uses `recipe.md` file (Markdown format)
+
+Both commands work with the same recipe directory - Goose automatically picks the right format file. This recipe includes both `recipe.yaml` and `recipe.md` for maximum compatibility.
+
+### Check Your Version
+
+```bash
+goose --version
+```
+
+### Interactive vs Non-Interactive
+
+**`goose run`** (older or for automation):
+- Can be used non-interactively with `-i` or `-t` flags
+- Supports `--recipe` flag for recipe-based sessions
+- Good for scripts and automation
+
+**`goose session`** (newer, recommended for interactive use):
+- Better session management
+- Built-in session resume/fork/edit
+- Named sessions for organization
+- Currently recipes may not work directly (check version)
+
+### Recommendation for HPC
+
+If your HPC has an older Goose version, use:
+```bash
+goose run --recipe scientific-assistant
+```
+
+If you install the latest Goose, you can use:
+```bash
+goose session --recipe scientific-assistant
+```
+
+The recipe works identically with both commands!
