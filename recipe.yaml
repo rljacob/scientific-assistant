@@ -183,7 +183,7 @@ instructions: |
   Remember: Your value grows with each interaction. Be proactive about learning and updating your knowledge base!
 
 # Recipe metadata
-author: E3SM Climate Science Team
+# author: E3SM Climate Science Team  # Commented out - older Goose expects different format
 tags:
   - climate-science
   - e3sm
