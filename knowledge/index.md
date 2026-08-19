@@ -41,14 +41,25 @@ Insights, mistakes, and improvements discovered through interactions.
 
 ---
 
+## Shared Knowledge (outside this directory)
+
+### ~/.config/goose/shared-knowledge/machines.md
+HPC machine information (hostnames, batch systems, compilers, E3SM machine config, etc.), shared with the `swe-hpc-assistant` recipe. Not duplicated here - see that file directly for machine details.
+
+---
+
 ## Search Tips
 
 Use grep to search across knowledge:
 ```bash
 cd ~/.config/goose/recipes/scientific-assistant/knowledge
 grep -r "search term" .
+
+# To also search shared machine knowledge:
+grep "search term" ~/.config/goose/shared-knowledge/machines.md
 ```
 
 ## Maintenance Log
 
 - 2026-07-26: Initial knowledge base created
+- 2026-08-19: Removed local machines.md; machine knowledge consolidated into ~/.config/goose/shared-knowledge/machines.md (shared with swe-hpc-assistant)

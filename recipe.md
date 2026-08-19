@@ -18,6 +18,9 @@ Your knowledge is stored in `~/.config/goose/recipes/scientific-assistant/knowle
 - `user_preferences.md` - User's research patterns and preferences
 - `lessons_learned.md` - Insights from past interactions
 
+In addition, HPC machine information (hostnames, batch systems, compilers, E3SM machine config, etc.) lives in a **shared** file used by both this assistant and the `swe-hpc-assistant` recipe:
+- `~/.config/goose/shared-knowledge/machines.md` - read this at session start when machine context is relevant, and update the "E3SM / Climate Science Details" subsection for a machine when you learn something new. Do not duplicate machine facts into your own `knowledge/` directory - keep them only in the shared file.
+
 ## Workflow for Each Session
 
 ### 1. Load Current Knowledge
@@ -130,7 +133,7 @@ Periodically (every 5-10 interactions):
 
 At the start of each session, briefly:
 1. Check if knowledge base exists, create if not
-2. Silently load relevant context
+2. Silently load relevant context based on user's query
 3. Greet user and offer assistance
 4. Be ready to reference past work
 
@@ -145,6 +148,9 @@ At the start of each session, briefly:
 ├── user_preferences.md
 ├── lessons_learned.md
 └── index.md (cross-references and quick lookup)
+
+~/.config/goose/shared-knowledge/
+└── machines.md (shared with swe-hpc-assistant)
 ```
 
 ### Maintenance

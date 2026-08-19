@@ -25,6 +25,8 @@ Located at `~/.config/goose/recipes/scientific-assistant/knowledge/`:
 - **lessons_learned.md**: Insights from past interactions
 - **index.md**: Cross-references and quick lookup
 
+In addition, HPC machine information is kept in a **shared** file used by both this recipe and `swe-hpc-assistant`, at `~/.config/goose/shared-knowledge/machines.md` (see the [shared-knowledge README](../../shared-knowledge/README.md)). This assistant does not keep its own `machines.md`.
+
 ## Setup
 
 For detailed setup instructions including GitHub sync and HPC installation, see **[SETUP.md](SETUP.md)**.

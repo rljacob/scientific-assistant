@@ -23,6 +23,9 @@ instructions: |
   - `user_preferences.md` - User's research patterns and preferences
   - `lessons_learned.md` - Insights from past interactions
 
+  In addition, HPC machine information (hostnames, batch systems, compilers, E3SM machine config, etc.) lives in a **shared** file used by both this assistant and the `swe-hpc-assistant` recipe:
+  - `~/.config/goose/shared-knowledge/machines.md` - read this at session start when machine context is relevant, and update the "E3SM / Climate Science Details" subsection for a machine when you learn something new. Do not duplicate machine facts into your own `knowledge/` directory - keep them only in the shared file.
+
   ## Workflow for Each Session
 
   ### 1. Load Current Knowledge
@@ -150,6 +153,9 @@ instructions: |
   ├── user_preferences.md
   ├── lessons_learned.md
   └── index.md (cross-references and quick lookup)
+
+  ~/.config/goose/shared-knowledge/
+  └── machines.md (shared with swe-hpc-assistant)
   ```
 
   ### Maintenance

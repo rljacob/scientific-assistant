@@ -2,6 +2,8 @@
 
 This guide helps you use the Scientific Assistant on both local and HPC machines with GitHub sync.
 
+> **Shared machine knowledge:** HPC machine details (hostnames, compilers, batch systems) live in `~/.config/goose/shared-knowledge/machines.md`, shared with the `swe-hpc-assistant` recipe. That directory has its own git repo and `sync-knowledge.sh` - sync it separately (or alongside this one) so both assistants stay up to date. See `~/.config/goose/shared-knowledge/README.md`.
+
 ## Prerequisites
 
 - GitHub account
