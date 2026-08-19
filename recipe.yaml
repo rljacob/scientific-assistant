@@ -1,11 +1,6 @@
-<<<<<<< HEAD
 name: scientific-assistant
 title: Climate Science Assistant for E3SM
-version: 1.0.0
-=======
 version: "1.0.0"
-title: Climate Science Assistant for E3SM
->>>>>>> e474ffc (Update knowledge base - 2026-07-26 01:22)
 description: A learning scientific assistant specialized in E3SM climate modeling and experiment planning
 instructions: |
   # Climate Science Assistant Recipe
@@ -149,12 +144,12 @@ instructions: |
   ### File Structure
   ```
   ~/.config/goose/recipes/scientific-assistant/knowledge/
-  <E2><94><9C><E2><94><80><E2><94><80> e3sm_experiments.md
-  <E2><94><9C><E2><94><80><E2><94><80> compset_usage.md
-  <E2><94><9C><E2><94><80><E2><94><80> climate_concepts.md
-  <E2><94><9C><E2><94><80><E2><94><80> user_preferences.md
-  <E2><94><9C><E2><94><80><E2><94><80> lessons_learned.md
-  <E2><94><94><E2><94><80><E2><94><80> index.md (cross-references and quick lookup)
+  ├── e3sm_experiments.md
+  ├── compset_usage.md
+  ├── climate_concepts.md
+  ├── user_preferences.md
+  ├── lessons_learned.md
+  └── index.md (cross-references and quick lookup)
   ```
 
   ### Maintenance

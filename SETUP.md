@@ -120,9 +120,8 @@ cat ~/.ssh/id_ed25519.pub
 cd ~/.config/goose/recipes/scientific-assistant
 ./sync-knowledge.sh
 
-# Work with the assistant (use appropriate command for your Goose version)
-goose session --recipe scientific-assistant
-# OR for older Goose: goose run --recipe scientific-assistant
+# Work with the assistant
+goose run --recipe scientific-assistant
 
 # After planning experiments - sync to GitHub
 ./sync-knowledge.sh
@@ -135,9 +134,8 @@ goose session --recipe scientific-assistant
 cd ~/.config/goose/recipes/scientific-assistant
 ./sync-knowledge.sh
 
-# Use the assistant (check your Goose version)
+# Use the assistant
 goose run --recipe scientific-assistant
-# OR for newer Goose: goose session --recipe scientific-assistant
 
 # Or just run your E3SM cases
 
@@ -145,7 +143,7 @@ goose run --recipe scientific-assistant
 ./sync-knowledge.sh
 ```
 
-> **Note:** Goose command syntax changed between versions. Older versions use `goose run --recipe` while newer versions support `goose session --recipe`. Both work with the same recipe files.
+> **Note:** Use `goose run --recipe scientific-assistant` on all machines. Add `--interactive` if you want to keep chatting after the initial recipe prompt runs (e.g. `goose run --recipe scientific-assistant --interactive`).
 
 ## Sync Script Usage
 
@@ -301,7 +299,7 @@ cd scientific-assistant && chmod +x sync-knowledge.sh
 
 # Daily workflow
 ./sync-knowledge.sh                          # Before work
-goose session --recipe scientific-assistant  # Do work
+goose run --recipe scientific-assistant      # Do work
 ./sync-knowledge.sh                          # After work
 
 # Check status
@@ -319,43 +317,21 @@ If you encounter issues:
 4. Review HPC documentation for module loading
 5. Check Goose installation: `goose --version`
 
-## Goose Version Compatibility
+## Goose Recipe Command
 
-### Recipe Command Differences
+`goose session` does not support a `--recipe` flag. Loading this recipe (on any machine, any goose version) is done with:
 
-The command to use a recipe changed between Goose versions:
-
-**Older Goose (likely on HPC):**
 ```bash
 goose run --recipe scientific-assistant
 ```
 
-**Newer Goose (likely on local machine):**
+This runs the recipe's initial prompt and exits. To keep chatting afterward, add `--interactive` (or `-s`):
+
 ```bash
-goose session --recipe scientific-assistant
+goose run --recipe scientific-assistant --interactive
 ```
 
-Both commands work with the same recipe files - just the CLI syntax changed.
-
-## Goose Version Compatibility
-
-### Recipe Command Differences
-
-The command to use a recipe changed between Goose versions:
-
-**Older Goose (likely on HPC):**
-```bash
-goose run --recipe scientific-assistant
-```
-Uses `recipe.yaml` file (YAML format)
-
-**Newer Goose (likely on local machine):**
-```bash
-goose session --recipe scientific-assistant
-```
-Uses `recipe.md` file (Markdown format)
-
-Both commands work with the same recipe directory - Goose automatically picks the right format file. This recipe includes both `recipe.yaml` and `recipe.md` for maximum compatibility.
+`goose run --recipe` loads `recipe.yaml` (YAML format). `recipe.md` is kept only as a human-readable copy of the same instructions and is not loaded directly by the CLI.
 
 ### Check Your Version
 
@@ -363,52 +339,27 @@ Both commands work with the same recipe directory - Goose automatically picks th
 goose --version
 ```
 
-### Interactive vs Non-Interactive
-
-**`goose run`** (older or for automation):
-- Can be used non-interactively with `-i` or `-t` flags
-- Supports `--recipe` flag for recipe-based sessions
-- Good for scripts and automation
-
-**`goose session`** (newer, recommended for interactive use):
-- Better session management
-- Built-in session resume/fork/edit
-- Named sessions for organization
-- Currently recipes may not work directly (check version)
-
-### Recommendation for HPC
-
-If your HPC has an older Goose version, use:
-```bash
-goose run --recipe scientific-assistant
-```
-
-If you install the latest Goose, you can use:
-```bash
-goose session --recipe scientific-assistant
-```
-
-The recipe works identically with both commands!
-
 ---
 
-## IMPORTANT: Recipe File Location for Older Goose
+## IMPORTANT: Recipe File Location for `goose run --recipe <name>`
 
 ### The Problem
 
-Older Goose versions look for `scientific-assistant.yaml` directly in the recipes directory:
+When you load a recipe by name (e.g. `goose run --recipe scientific-assistant`), goose looks for `scientific-assistant.yaml` or `scientific-assistant.json` directly inside a recipes directory (current directory, `GOOSE_RECIPE_PATH`, or `~/.config/goose/recipes/`):
 ```
 ~/.config/goose/recipes/scientific-assistant.yaml
 ```
 
-NOT in a subdirectory:
+NOT inside a subdirectory:
 ```
-~/.config/goose/recipes/scientific-assistant/recipe.yaml  ❌ Older Goose can't find this
+~/.config/goose/recipes/scientific-assistant/recipe.yaml  ❌ Not found by name lookup
 ```
+
+This is standard goose recipe-by-name behavior (confirmed on goose 1.44.0), not something tied to an older version.
 
 ### The Solution
 
-**On HPC (one-time setup after cloning):**
+**On any machine (one-time setup after cloning):**
 
 ```bash
 cd ~/.config/goose/recipes
@@ -425,10 +376,10 @@ goose run --recipe scientific-assistant
 
 ```
 ~/.config/goose/recipes/
-├── scientific-assistant.yaml           ← For older Goose (HPC) ✅
-└── scientific-assistant/               ← Knowledge base directory
-    ├── recipe.yaml                     ← Same content as above
-    ├── recipe.md                       ← For newer Goose
+├── scientific-assistant.yaml           ← Flat copy goose finds by name ✅
+└── scientific-assistant/               ← Knowledge base + git repo
+    ├── recipe.yaml                     ← Canonical recipe (same content as above)
+    ├── recipe.md                       ← Human-readable copy (not loaded by CLI)
     ├── knowledge/                      ← All knowledge files
     │   ├── e3sm_experiments.md
     │   ├── compset_usage.md
@@ -440,12 +391,12 @@ goose run --recipe scientific-assistant
 ### Why This Structure?
 
 - **Knowledge base**: Organized in subdirectory with git
-- **Recipe file**: Copied to parent directory for older Goose to find
+- **Recipe file**: Copied to parent directory so `goose run --recipe scientific-assistant` can find it by name
 - **Sync script**: Automatically maintains both copies (local only)
-- **HPC**: Needs manual copy once after initial clone
+- **New machine**: Needs the flat copy created once after initial clone
 
 ### After Initial Setup
 
 On local machine, the `sync-knowledge.sh` script automatically maintains both locations.
 
-On HPC, you only need to copy the recipe file ONCE during initial setup. After that, just use `git pull` to update the knowledge base.
+On other machines, you only need to copy the recipe file ONCE during initial setup. After that, just use `git pull` to update the knowledge base, and re-copy `recipe.yaml` to the parent directory if it changes.

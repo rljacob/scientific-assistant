@@ -48,24 +48,18 @@ git clone git@github.com:YOUR_USERNAME/scientific-assistant.git
 
 Goose supports two recipe formats:
 
-1. **recipe.yaml** (YAML format - required for `goose run`)
-2. **recipe.md** (Markdown format - for newer Goose versions)
+1. **recipe.yaml** (YAML format - required for `goose run --recipe`)
+2. **recipe.md** (Markdown reference copy - not directly loadable by the CLI)
 
-This recipe includes both formats with identical content. Use whichever your Goose version requires.
+The CLI loads `recipe.yaml` (or the `scientific-assistant.yaml` copy in the parent recipes directory). `recipe.md` is kept as a human-readable copy of the same content.
 
 ### Start the Assistant
 
-**Current Goose version (local):**
-```bash
-goose session --recipe scientific-assistant
-```
-
-**Older Goose version (if on HPC):**
 ```bash
 goose run --recipe scientific-assistant
 ```
 
-> **Note:** Older Goose versions use `goose run --recipe` while newer versions support `goose session --recipe`. Use whichever works on your machine.
+> **Note:** `goose session` does not currently support a `--recipe` flag. Use `goose run --recipe scientific-assistant` on all machines. If you want to keep chatting after the recipe's initial prompt runs, add `--interactive` (or `-s`): `goose run --recipe scientific-assistant --interactive`.
 
 ### Sync Across Machines
 
