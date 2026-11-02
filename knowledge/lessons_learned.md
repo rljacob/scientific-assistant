@@ -176,3 +176,68 @@ Monthly (or every ~20 interactions):
 ## Notes
 
 This is arguably the most important knowledge file. While the others record **what**, this file records **why** and **how**. It's where the assistant truly learns to improve over time.
+
+---
+
+## [2026-10-29] Net-Flux Validation Can Hide Compensating Errors
+
+**Context:** User evaluates E3SM air-sea coupling against WHOI-OAFlux in Southern Ocean
+and regionally refined configurations.
+
+**Lesson:** Validating or tuning a coupled model on **net** surface heat flux is unreliable.
+Hyder et al. 2018 showed most CMIP5-era atmospheric models achieving a small net heat flux
+bias in the Southern Ocean did so through **compensating errors** between shortwave and
+turbulent components. A model can match the reference in the net while still distorting
+upper-ocean thermal structure.
+
+**Practice to adopt:**
+1. Always decompose into SW / LW / LH / SH before declaring agreement.
+2. Use structural metrics that are hard to satisfy by compensation - e.g. the Josey
+   Pacific vs. Atlantic/Indian sector heat-flux asymmetry.
+3. Treat any single flux product (including OAFlux) as an ensemble member in the Southern
+   Ocean, where only two validating flux buoys exist.
+
+---
+
+## [2026-10-29] Reference-Product Resolution Mismatch in RRM Evaluation
+
+**Context:** Same as above - regionally refined mesh configurations.
+
+**Lesson:** Coarse, objectively-analyzed reference products cannot represent mesoscale
+air-sea feedbacks that a refined mesh resolves. Observed eddy-scale modulation is large
+(momentum flux ~+89%, SHF ~+187% over a warm-core eddy). Apparent "bias" in a refined
+region may be **missing variance in the reference product**, not model error.
+
+**Practice to adopt:** Coarse-grain model output to the reference product's effective
+resolution before computing bias statistics in refined regions, and report the scale
+at which the comparison was made.
+
+---
+
+## [2026-10-29] Do Not Mix E and P Across Products
+
+**Context:** Freshwater flux evaluation.
+
+**Lesson:** E-P is a small residual of two large terms; its uncertainty (~36%) exceeds that
+of E (~8%) and P (~9%) by a factor of four or more. Combining reanalysis precipitation with
+satellite evaporation has been shown to yield a *negative* global ocean water budget
+(Iwasaki et al. 2013).
+
+**Practice to adopt:** Use internally consistent E/P pairs from a single product family,
+and state the pairing explicitly in any budget analysis.
+
+---
+
+## [2026-10-29] Eddying/Refined Configurations Need Their Own Spin-Up
+
+**Context:** RRM / high-resolution Southern Ocean configurations.
+
+**Lesson:** Zeller et al. 2024 found that initializing a 1/10° coupled configuration from a
+biased non-eddying (1/2°) equilibrated state produced **immense spurious open-ocean deep
+convection** with a global circulation imprint, because the coarse-resolution biased state
+is not stable at eddying resolution.
+
+**Practice to adopt:** Budget for a dedicated spin-up at the target resolution rather than
+branching from a coarse-mesh equilibrium; watch for open-ocean deep convection as the
+diagnostic symptom if branching is unavoidable.
+
